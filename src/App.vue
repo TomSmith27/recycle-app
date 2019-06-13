@@ -1,160 +1,114 @@
 <template>
-  <div>
-    <!-- Navigation -->
-    <nav class="navbar navbar-light bg-light static-top">
-      <div class="container">
-        <a class="navbar-brand" href="#">Recycle Sheffield</a>
-        <a class="btn btn-primary" href="#">Sign In</a>
+  <div class="main">
+    <nav class="navbar navbar-expand-md navbar-dark bg-secondary">
+      <a class="navbar-brand" href="#">Recycle Sheffield</a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-toggle="collapse"
+        data-target="#navbarsExampleDefault"
+        aria-controls="navbarsExampleDefault"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item active">
+            <a class="nav-link" href="#">
+              Home
+              <span class="sr-only">(current)</span>
+            </a>
+          </li>
+        </ul>
       </div>
     </nav>
 
-    <!-- Masthead -->
-    <header class="masthead text-white text-center">
-      <div class="overlay"></div>
-      <div class="container">
-        <div class="row">
-          <div class="col-xl-9 mx-auto">
-            <h1 class="mb-5">Where can I recycle?...</h1>
-            <select placeholder="item" class="form-control form-control-lg">
-              <option disabled selected value>-- select an option --</option>
-              <option value>Eggs</option>
-              <option value>Plastic</option>
-            </select>
-            <h2>in</h2>
-            <select placeholder="item" class="form-control form-control-lg">
-              <option value>Sheffield</option>
-            </select>
+    <main role="main" class="container">
+      <div class="starter-template">
+        <div class="container">
+          <div class="row">
+            <div class="col-xl-9 mx-auto">
+              <h1 class="mb-5 text-light">Where can I recycle?...</h1>
+              <select class="form-control form-control-lg" v-model="selectedItem">
+                <option value disabled selected>-- select an option --</option>
+                <option>Eggs</option>
+                <option>Plastic</option>
+              </select>
+              <h2 class="text-light">in</h2>
+              <select placeholder="item" class="form-control form-control-lg">
+                <option value>Sheffield</option>
+              </select>
+            </div>
+          </div>
+          <div class="pt-4 row">
+            <div class="col-xl-9 mx-auto">
+              <b-button block variant="primary">Search</b-button>
+            </div>
+          </div>
+          <div v-if="selectedItem">
+            <div class="mt-5 row">
+              <div class="col-xl-9 mx-auto">
+                <h2 class="text-light">{{results.length}} Results for {{selectedItem}}</h2>
+              </div>
+            </div>
+            <div class="row" v-if="results.length > 0">
+              <div class="col-xl-9 mx-auto">
+                <b-card-group deck>
+                  <b-card :key="res.name" v-for="res in results" no-body class="overflow-hidden">
+                    <b-row no-gutters>
+                      <b-col md="6">
+                        <b-card-img :src="res.img" class="rounded-0" style="width : 100px; height :100px"></b-card-img>
+                      </b-col>
+                      <b-col md="6">
+                        <b-card-body :title="res.name">
+                          <b-card-text>
+                            <b-badge class="mx-2 py-2" :key="tag" v-for="tag in res.tags" variant="primary">{{tag}}</b-badge>
+                          </b-card-text>
+                        </b-card-body>
+                      </b-col>
+                    </b-row>
+                  </b-card>
+
+                  <!--    <b-card :key="res.name" v-for="res in results" :title="res.name" :img-src="res.img" img-alt="Image" img-top tag="article" style="max-width: 15rem;" class="mb-2">
+                    <b-card-text>
+                      <b-badge class="mx-2 py-2" :key="tag" v-for="tag in res.tags" variant="primary">{{tag}}</b-badge>
+                    </b-card-text>
+                  </b-card>-->
+                </b-card-group>
+              </div>
+            </div>
           </div>
         </div>
       </div>
-    </header>
+    </main>
   </div>
 </template>
+<script>
+import data from "./data.json";
+export default {
+  name: "App",
+  data() {
+    return {
+      selectedItem: ""
+    };
+  },
+  computed: {
+    results() {
+      return data.filter(t => t.tags.includes(this.selectedItem));
+    }
+  }
+};
+</script>
 
 <style lang="scss">
-/*!
- * Start Bootstrap - Landing Page v5.0.5 (https://startbootstrap.com/template-overviews/landing-page)
- * Copyright 2013-2019 Start Bootstrap
- * Licensed under MIT (https://github.com/BlackrockDigital/startbootstrap-landing-page/blob/master/LICENSE)
- */
-
 body {
-  font-family: "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  background-color: #343a40 !important;
 }
-
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  font-family: "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
-  font-weight: 700;
-}
-
-header.masthead {
-  position: relative;
-  background-color: #343a40;
-  background-size: cover;
-  padding-top: 8rem;
-  padding-bottom: 8rem;
-}
-
-header.masthead .overlay {
-  position: absolute;
-  background-color: #212529;
-  height: 100%;
-  width: 100%;
-  top: 0;
-  left: 0;
-  opacity: 0.3;
-}
-
-header.masthead h1 {
-  font-size: 2rem;
-}
-
-@media (min-width: 768px) {
-  header.masthead {
-    padding-top: 12rem;
-    padding-bottom: 12rem;
-  }
-  header.masthead h1 {
-    font-size: 3rem;
-  }
-}
-
-.showcase .showcase-text {
-  padding: 3rem;
-}
-
-.showcase .showcase-img {
-  min-height: 30rem;
-  background-size: cover;
-}
-
-@media (min-width: 768px) {
-  .showcase .showcase-text {
-    padding: 7rem;
-  }
-}
-
-.features-icons {
-  padding-top: 7rem;
-  padding-bottom: 7rem;
-}
-
-.features-icons .features-icons-item {
-  max-width: 20rem;
-}
-
-.features-icons .features-icons-item .features-icons-icon {
-  height: 7rem;
-}
-
-.features-icons .features-icons-item .features-icons-icon i {
-  font-size: 4.5rem;
-}
-
-.features-icons .features-icons-item:hover .features-icons-icon i {
-  font-size: 5rem;
-}
-
-.testimonials {
-  padding-top: 7rem;
-  padding-bottom: 7rem;
-}
-
-.testimonials .testimonial-item {
-  max-width: 18rem;
-}
-
-.testimonials .testimonial-item img {
-  max-width: 12rem;
-  -webkit-box-shadow: 0px 5px 5px 0px #adb5bd;
-  box-shadow: 0px 5px 5px 0px #adb5bd;
-}
-
-.call-to-action {
-  position: relative;
-  background-color: #343a40;
-  background-size: cover;
-  padding-top: 7rem;
-  padding-bottom: 7rem;
-}
-
-.call-to-action .overlay {
-  position: absolute;
-  background-color: #212529;
-  height: 100%;
-  width: 100%;
-  top: 0;
-  left: 0;
-  opacity: 0.3;
-}
-
-footer.footer {
-  padding-top: 4rem;
-  padding-bottom: 4rem;
+main {
+  margin-top: 20px;
+  text-align: center;
 }
 </style>

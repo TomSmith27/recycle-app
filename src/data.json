@@ -1,0 +1,13 @@
+[{
+    "img": "https://botw-pd.s3.amazonaws.com/styles/logo-thumbnail/s3/0001/3088/brand.gif?itok=qczgQ9HL",
+    "name": "Tesco",
+    "tags": ["Plastic"],
+    "location": []
+  },
+  {
+    "img": "https://static.independent.co.uk/s3fs-public/thumbnails/image/2019/01/14/09/instagram-egg-photo-world-record.jpg?w968h681",
+    "name": "Egg Shop",
+    "tags": ["Plastic", "Eggs"],
+    "location": []
+  }
+]
